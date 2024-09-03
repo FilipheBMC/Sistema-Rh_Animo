@@ -17,6 +17,7 @@ public class JanelaPrincipal extends ViewerAbstrato {
 	// ATRIBUTOS
 	//
 	private JPanel contentPane;
+	private CtrlPrograma ctrl = (CtrlPrograma)getCtrl();
 
 	/**
 	 * Create the frame.
@@ -42,7 +43,7 @@ public class JanelaPrincipal extends ViewerAbstrato {
 		JButton BtColaboradores = new JButton("Colaboradores");
 		BtColaboradores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CtrlPrograma ctrl = (CtrlPrograma)getCtrl();
+				//CtrlPrograma ctrl = (CtrlPrograma)getCtrl();
 				ctrl.iniciarConsultarColaboradores();
 			}
 		});
@@ -52,12 +53,19 @@ public class JanelaPrincipal extends ViewerAbstrato {
 		JButton BtGrupo = new JButton("Grupos");
 		BtGrupo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//CtrlPrograma ctrl = (CtrlPrograma)getCtrl();
+				ctrl.inicilizarConsultarGrupo();
 			}
 		});
 		BtGrupo.setBounds(169, 10, 111, 47);
 		contentPane.add(BtGrupo);
 		
 		JButton BtSetor = new JButton("Setor");
+		BtSetor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctrl.inicializarSetor();
+			}
+		});
 		BtSetor.setBounds(310, 10, 111, 47);
 		contentPane.add(BtSetor);
 		

@@ -5,14 +5,15 @@ import java.io.Serializable;
 public class Setor implements Serializable{
 	
 	private String nomeSetor;
-	private String codigoSetor;
+	private int codigoSetor;
 	
-	public Setor(String setor, String codigoSetor)throws ModelException {
+	public Setor(String setor, int codigoSetor)throws ModelException {
 		this.setNomeSetor(setor);
+		this.setCodigoSetor(codigoSetor);
 	}
 	
 	//Métodos get e set do código do setor
-	public String getCodSetor() {
+	public int getCodSetor() {
 		return codigoSetor;
 	}
 
@@ -26,6 +27,27 @@ public class Setor implements Serializable{
 		this.nomeSetor = nomeSetor;
 	}
 	
+	public String toString() {
+		return "O nome do setor é: " + getNomeSetor() + "\n" +
+				"O código é: " + getCodSetor();
+	}
+	
+	public void setCodigoSetor(int codSetor)throws ModelException {
+		validaCodSetor(codSetor);
+		this.codigoSetor = codSetor;
+	}
+	
+	//
+	//	FAZER O MÉTODO DE VALIDAÇÃO DO CÓDIGO DE SETOR
+	//
+	
+	private static void validaCodSetor(int codigoSetor)throws ModelException {
+		if(codigoSetor == 0)
+			throw new ModelException("O Códogio do setor não pode ser 0.");
+		if(codigoSetor < 0)
+			throw new ModelException("O códgio do setor não pode ser menor que 0.");
+	}
+	
 	private static void validaNomeSetor(String nomeSetor)throws ModelException {
 		if(nomeSetor == null)
 			throw new ModelException("O nome do setor não pode ser nulo.");
@@ -35,4 +57,6 @@ public class Setor implements Serializable{
 		if(numQtd < 4)
 			throw new ModelException("O nome do setor não pode ter menos de 4 caracteres.");
 	}
+	
+
 }

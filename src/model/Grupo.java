@@ -8,10 +8,10 @@ import model.dao.DaoSetor;
 public class Grupo implements Serializable{
 	
 	private String nome;
-	private String codSetor;
+	private int codSetor;
 	private String codGrupo;
 	
-	public Grupo(String nome, String codSetor, String codGrupo) throws ModelException{
+	public Grupo(String nome, int codSetor, String codGrupo) throws ModelException{
 		this.setNome(nome);
 		this.setCodigoGrupo(codGrupo);
 		this.setCodigoSetor(codSetor);
@@ -21,11 +21,11 @@ public class Grupo implements Serializable{
 	//	MÉTODOS GETS E SETS DO CÓDIGO SETOR
 	//
 	
-	public String getCodigoSetor() {
+	public int getCodigoSetor() {
 		return this.codSetor;
 	}
 	
-	public void setCodigoSetor(String codSetor) throws ModelException {
+	public void setCodigoSetor(int codSetor) throws ModelException {
 		validaCodigoSetor(codSetor);
 		this.codSetor = codSetor;
 	}
@@ -42,7 +42,7 @@ public class Grupo implements Serializable{
 	
 	public void setCodigoGrupo(String codigo)throws ModelException {
 		validaCodigoGrupo(codigo);
-		this.codSetor = codigo;
+		this.codGrupo = codigo;
 	}
 	
 	// ----------------------------------------------------------------------
@@ -66,17 +66,18 @@ public class Grupo implements Serializable{
 	//		METODOS DE VALIDAÇÃO
 	//
 	
-	private static void validaCodigoSetor(String cod)throws ModelException {
+	private static void validaCodigoSetor(int cod)throws ModelException {
 		
 		
 		DaoSetor setor = new DaoSetor();
 		
 		Setor[] set = setor.obterListaObjetos();
-		
-		for(int i = 0, qtdGrup = set.length; i < qtdGrup; i++) {
-			if(set[i].getCodSetor().equals(cod))
-				throw new ModelException("O código não pode ser igual ao do setor " + set[i].getNomeSetor());
-		}
+
+		// ME ESQUECI O QUE ISSO FAZ MESMO. A FUNCIONALIDADADE PARA SER EXATO
+//		for(int i = 0, qtdGrup = set.length; i < qtdGrup; i++) {
+//			if(set[i].getCodSetor().equals(cod))
+//				throw new ModelException("O código não pode ser igual ao do setor " + set[i].getNomeSetor());
+//		}
 	}
 	
 	private static void validaCodigoGrupo(String cod)throws ModelException {

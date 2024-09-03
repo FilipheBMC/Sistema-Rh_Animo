@@ -2,6 +2,7 @@ package viewer;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -61,6 +62,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 	 */
 	public JanelaConsultarColaboradores(CtrlAbstrato c) {
 		super(c);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
 		setFont(new Font("Arial Narrow", Font.BOLD, 12));
 		setTitle("Consulta de Colaboradores");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -196,7 +198,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 				
 			}
 		});
-		btnAdicionar.setBounds(297, 115, 85, 21);
+		btnAdicionar.setBounds(297, 115, 87, 21);
 		contentPane.add(btnAdicionar);
 		
 		JButton BtEncerrar = new JButton("Fechar");
@@ -206,7 +208,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 				ctrl.encerrar();
 			}
 		});
-		BtEncerrar.setBounds(392, 115, 85, 21);
+		BtEncerrar.setBounds(399, 115, 85, 21);
 		contentPane.add(BtEncerrar);
 		
 		this.setVisible(true);

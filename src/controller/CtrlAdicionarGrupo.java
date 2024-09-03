@@ -1,5 +1,7 @@
 package controller;
 
+import viewer.JanelaAdicionarGrupo;
+
 public class CtrlAdicionarGrupo extends CtrlAbstrato{
 
 	//
@@ -9,6 +11,7 @@ public class CtrlAdicionarGrupo extends CtrlAbstrato{
 	//
 	//	JANELAS
 	//
+	private JanelaAdicionarGrupo janelaAdicionarGrupo;
 	
 	public CtrlAdicionarGrupo(CtrlAbstrato ctrl) {
 		super(ctrl);
@@ -25,14 +28,15 @@ public class CtrlAdicionarGrupo extends CtrlAbstrato{
 
 	@Override
 	public void iniciar() {
-		// TODO Auto-generated method stub
-		
+			this.janelaAdicionarGrupo = new JanelaAdicionarGrupo(this);
 	}
 
 	@Override
 	public void encerrar() {
 		// TODO Auto-generated method stub
-		
+		this.janelaAdicionarGrupo.fechar();
+		CtrlConsultarGrupo ctrl = (CtrlConsultarGrupo)getCtrlPai();
+		ctrl.iniciarInicializarAdicionarGrupo();
 	}
 	
 }

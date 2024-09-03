@@ -51,6 +51,7 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	// -----------    #-#    --------------
 	
 	//Chamando o Adicionar Colaborador
+	
 
 	@Override
 	public void iniciar() {

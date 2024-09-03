@@ -4,6 +4,7 @@ import model.dao.Serializador;
 import viewer.JanelaAdicionarColaborador;
 import viewer.JanelaConsultarColaboradores;
 import viewer.JanelaPrincipal;
+import viewer.JanelaSetor;
 
 public class CtrlPrograma extends CtrlAbstrato{
 
@@ -18,6 +19,9 @@ public class CtrlPrograma extends CtrlAbstrato{
 	
 	// CTRLS
 	public CtrlConsultarColaborador			CtrlConsultarColaborador;
+	public CtrlAdicionarGrupo				ctrlAdicionarGrupo;
+	public CtrlConsultarGrupo 				ctrlConsultarGrupo;
+	public CtrlSetor						ctrlSetor;
 	
 	
 	//
@@ -56,6 +60,33 @@ public class CtrlPrograma extends CtrlAbstrato{
 	
 	public void informarFimDeConsultarColaboradores() {
 		this.CtrlConsultarColaborador = null;
+	}
+	
+	// ---------------------------------------------------------------
+	
+	
+	//----------- CTRL CONSULTAR GRUPOS ------------------------
+	
+	public void inicilizarConsultarGrupo() {
+		if(this.ctrlConsultarGrupo == null)
+			this.ctrlConsultarGrupo = new CtrlConsultarGrupo(this);
+	}
+	
+	public void informarFimDeConsultarGrupo() {
+		this.ctrlConsultarGrupo = null;
+	}
+	
+	// ---------------------------------------------------------------
+	
+	//----------- CTRL SETOR ------------------------
+	
+	public void inicializarSetor() {
+		if(this.ctrlSetor == null)
+			this.ctrlSetor = new CtrlSetor(this);
+	}
+	
+	public void informarFimSetor() {
+		this.ctrlSetor = null;
 	}
 	
 	// ---------------------------------------------------------------
