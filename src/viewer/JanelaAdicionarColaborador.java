@@ -34,7 +34,7 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 	/**
 	 * Create the frame.
 	 */
-	public JanelaAdicionarColaborador(CtrlAbstrato c) {
+	public JanelaAdicionarColaborador(CtrlAdicionarColaborador c) {
 		super(c);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
 		setTitle("Janela Adicionar Colaborador");

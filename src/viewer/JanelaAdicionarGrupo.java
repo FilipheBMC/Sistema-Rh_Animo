@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.CtrlAbstrato;
+import controller.CtrlAdicionarGrupo;
 
 public class JanelaAdicionarGrupo extends ViewerAbstrato {
 
@@ -22,7 +23,7 @@ public class JanelaAdicionarGrupo extends ViewerAbstrato {
 	/**
 	 * Create the frame.
 	 */
-	public JanelaAdicionarGrupo(CtrlAbstrato c) {
+	public JanelaAdicionarGrupo(CtrlAdicionarGrupo c) {
 		super(c);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				"C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
@@ -35,5 +36,6 @@ public class JanelaAdicionarGrupo extends ViewerAbstrato {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		setVisible(true);
 	}
 }

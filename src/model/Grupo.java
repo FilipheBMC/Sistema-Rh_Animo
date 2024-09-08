@@ -8,10 +8,10 @@ import model.dao.DaoSetor;
 public class Grupo implements Serializable{
 	
 	private String nome;
-	private int codSetor;
+	private Setor codSetor;
 	private String codGrupo;
 	
-	public Grupo(String nome, int codSetor, String codGrupo) throws ModelException{
+	public Grupo(String nome, Setor codSetor, String codGrupo) throws ModelException{
 		this.setNome(nome);
 		this.setCodigoGrupo(codGrupo);
 		this.setCodigoSetor(codSetor);
@@ -21,11 +21,11 @@ public class Grupo implements Serializable{
 	//	MÉTODOS GETS E SETS DO CÓDIGO SETOR
 	//
 	
-	public int getCodigoSetor() {
+	public Setor getCodigoSetor() {
 		return this.codSetor;
 	}
 	
-	public void setCodigoSetor(int codSetor) throws ModelException {
+	public void setCodigoSetor(Setor codSetor) throws ModelException {
 		validaCodigoSetor(codSetor);
 		this.codSetor = codSetor;
 	}
@@ -66,7 +66,7 @@ public class Grupo implements Serializable{
 	//		METODOS DE VALIDAÇÃO
 	//
 	
-	private static void validaCodigoSetor(int cod)throws ModelException {
+	private static void validaCodigoSetor(Setor cod)throws ModelException {
 		
 		
 		DaoSetor setor = new DaoSetor();
@@ -115,5 +115,9 @@ public class Grupo implements Serializable{
 		if(nom.length() < 4) {
 			throw new ModelException("O nome do grupo deve conter pelo menos 4 caracteres.");
 		}
+	}
+	
+	public String toString() {
+		return getCodigoGrupo() + " - " + getNome() + " - " + getCodigoSetor();
 	}
 }

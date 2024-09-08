@@ -60,7 +60,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 	/**
 	 * Create the frame.
 	 */
-	public JanelaConsultarColaboradores(CtrlAbstrato c) {
+	public JanelaConsultarColaboradores(CtrlConsultarColaborador c) {
 		super(c);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
 		setFont(new Font("Arial Narrow", Font.BOLD, 12));

@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 
+import model.dao.DaoSetor;
+
 public class Setor implements Serializable{
 	
 	private String nomeSetor;
@@ -28,8 +30,7 @@ public class Setor implements Serializable{
 	}
 	
 	public String toString() {
-		return "O nome do setor é: " + getNomeSetor() + "\n" +
-				"O código é: " + getCodSetor();
+		return getCodSetor() + " - " + getNomeSetor();
 	}
 	
 	public void setCodigoSetor(int codSetor)throws ModelException {
@@ -41,11 +42,24 @@ public class Setor implements Serializable{
 	//	FAZER O MÉTODO DE VALIDAÇÃO DO CÓDIGO DE SETOR
 	//
 	
+	private static Setor[] getListaSetores() {
+		DaoSetor setor = new DaoSetor();
+		return setor.obterListaObjetos();
+	}
+	
 	private static void validaCodSetor(int codigoSetor)throws ModelException {
 		if(codigoSetor == 0)
 			throw new ModelException("O Códogio do setor não pode ser 0.");
 		if(codigoSetor < 0)
 			throw new ModelException("O códgio do setor não pode ser menor que 0.");
+		
+		Setor[] listaSetores = getListaSetores();
+		
+		for(int i = 0, y = listaSetores.length; i < y; i++) {
+			int set = listaSetores[i].getCodSetor();
+			if(set == codigoSetor)
+				throw new ModelException("O código do setor não pode ser igual aos códigos já criados.");
+		}
 	}
 	
 	private static void validaNomeSetor(String nomeSetor)throws ModelException {
@@ -56,7 +70,18 @@ public class Setor implements Serializable{
 		
 		if(numQtd < 4)
 			throw new ModelException("O nome do setor não pode ter menos de 4 caracteres.");
+		
+		Setor[] listaSetores = getListaSetores();
+		
+		for(int i = 0, y = listaSetores.length; i < y; i++) {
+			String setorNome = listaSetores[i].getNomeSetor();
+			if(setorNome.equals(nomeSetor))
+				throw new ModelException("O nome do setor: '" + nomeSetor + "' já é existente. Tente outro nome.");
+		}
+		
 	}
+	
+
 	
 
 }

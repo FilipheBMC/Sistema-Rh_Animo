@@ -36,7 +36,7 @@ public class CtrlAdicionarGrupo extends CtrlAbstrato{
 		// TODO Auto-generated method stub
 		this.janelaAdicionarGrupo.fechar();
 		CtrlConsultarGrupo ctrl = (CtrlConsultarGrupo)getCtrlPai();
-		ctrl.iniciarInicializarAdicionarGrupo();
+		ctrl.informandoFimDoAdicionarGrupo();;
 	}
 	
 }
