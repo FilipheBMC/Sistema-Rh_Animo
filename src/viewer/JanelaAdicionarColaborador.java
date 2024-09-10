@@ -1,21 +1,25 @@
 package viewer;
 
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import controller.CtrlAbstrato;
 import controller.CtrlAdicionarColaborador;
-
-import java.awt.Toolkit;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import model.ModelException;
 
 public class JanelaAdicionarColaborador extends ViewerAbstrato {
 
@@ -34,7 +38,7 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 	/**
 	 * Create the frame.
 	 */
-	public JanelaAdicionarColaborador(CtrlAdicionarColaborador c) {
+	public JanelaAdicionarColaborador(CtrlAbstrato c) {
 		super(c);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
 		setTitle("Janela Adicionar Colaborador");
@@ -75,9 +79,23 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		TfCpf.setBounds(10, 106, 155, 25);
 		contentPane.add(TfCpf);
 		
-		TfDtNasc = new JTextField();
+//		TfDtNasc = new JTextField();
+//		TfDtNasc.setFont(new Font("Arial", Font.BOLD, 12));
+//		TfDtNasc.setColumns(10);
+//		TfDtNasc.setBounds(195, 51, 155, 25);
+//		contentPane.add(TfDtNasc);
+		
+		// Campo de Data de Nascimento com máscara
+		MaskFormatter dateMask = null;
+		try {
+		    dateMask = new MaskFormatter("##/##/####");
+		    dateMask.setPlaceholderCharacter('_'); // Define o caractere de preenchimento
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}
+
+		TfDtNasc = new JFormattedTextField(dateMask);
 		TfDtNasc.setFont(new Font("Arial", Font.BOLD, 12));
-		TfDtNasc.setColumns(10);
 		TfDtNasc.setBounds(195, 51, 155, 25);
 		contentPane.add(TfDtNasc);
 		
@@ -97,7 +115,7 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		lblDataEntrada.setBounds(372, 28, 125, 25);
 		contentPane.add(lblDataEntrada);
 		
-		TfDtEntrada = new JTextField();
+		TfDtEntrada = new JFormattedTextField(dateMask);
 		TfDtEntrada.setFont(new Font("Arial", Font.BOLD, 12));
 		TfDtEntrada.setColumns(10);
 		TfDtEntrada.setBounds(372, 51, 155, 25);
@@ -108,7 +126,7 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		lblDataDeEntrada.setBounds(372, 85, 125, 25);
 		contentPane.add(lblDataDeEntrada);
 		
-		TfDtSaida = new JTextField();
+		TfDtSaida = new JFormattedTextField(dateMask);
 		TfDtSaida.setFont(new Font("Arial", Font.BOLD, 12));
 		TfDtSaida.setColumns(10);
 		TfDtSaida.setBounds(372, 106, 155, 25);
@@ -145,6 +163,48 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		contentPane.add(CbGrupo_1);
 		
 		JButton BtEnviar = new JButton("Enviar");
+		BtEnviar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Pegando as Text Fields
+				String nome = TfNome.getText();
+				String Nascimento = TfDtNasc.getText();
+				String DtEntrada = TfDtEntrada.getText();
+				String DtSaida = TfDtSaida.getText();
+				String cpf = TfCpf.getText();
+				
+				String auxgrupo = (String) CbGrupo.getSelectedItem().toString();
+				String auxsetor = (String) CbSetor.getSelectedItem().toString();
+				
+				int grupo = 0;
+				int setor = 0;
+				
+				//Validação código grupo
+				try {
+					grupo = Integer.parseInt(auxgrupo);
+				}
+				catch(Exception ex) {
+					notificar("O código do grupo deve ser um numeral.");
+				}
+				
+				try {
+					setor = Integer.parseInt(auxsetor);
+				}
+				catch(Exception ex) {
+					notificar("O código do setor deve ser um numeral.");
+				}
+				
+				//Ctrl para adicionar colaborador
+				try {
+					CtrlAdicionarColaborador ctrl = (CtrlAdicionarColaborador)getCtrl();
+					ctrl.adicionarColaborador(nome, cpf, Nascimento, DtEntrada, DtSaida, grupo, setor, DtSaida, cpf);	
+				}
+				catch(ModelException me) {
+					notificar(me.toString());
+				}
+
+				
+			}
+		});
 		BtEnviar.setFont(new Font("Arial", Font.BOLD, 12));
 		BtEnviar.setBounds(10, 310, 95, 33);
 		contentPane.add(BtEnviar);
@@ -162,4 +222,7 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		
 		this.setVisible(true);
 	}
+	
+	
+
 }

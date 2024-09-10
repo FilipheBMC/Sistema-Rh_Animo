@@ -1,5 +1,10 @@
 package controller;
 
+import model.Colaborador;
+import model.Grupo;
+import model.ModelException;
+import model.Setor;
+import model.dao.DaoColaborador;
 import viewer.JanelaAdicionarColaborador;
 
 public class CtrlAdicionarColaborador extends CtrlAbstrato{
@@ -14,6 +19,23 @@ public class CtrlAdicionarColaborador extends CtrlAbstrato{
 	
 	public CtrlAdicionarColaborador(CtrlAbstrato ctrl) {
 		super(ctrl);
+	}
+	
+	/**Adicionar colaborador*/
+	public void adicionarColaborador(String nome, String cpf, String DtNascimento,
+									 String DtEntrada, String DtSaida,
+									 int grupo, int setor, String sexo,
+									 String cargo)throws ModelException {
+		
+		Colaborador colaborador = new Colaborador(cpf, nome, sexo, DtNascimento, "String do setor",
+												  "String do cargo", DtEntrada, DtSaida, setor, grupo);
+		
+		DaoColaborador daoColab = new DaoColaborador();
+		daoColab.adicionar(colaborador);
+		this.janelaAdiconarPessoa.notificar(colaborador.toString());
+		CtrlConsultarColaborador ctrlConsulta = (CtrlConsultarColaborador)getCtrlPai();
+		ctrlConsulta.atualizarTabela();
+		
 	}
 	
 	//Fechando a janela adicionar Colaborador

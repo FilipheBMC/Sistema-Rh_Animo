@@ -23,6 +23,7 @@ import javax.swing.border.TitledBorder;
 
 import controller.CtrlAbstrato;
 import controller.CtrlConsultarColaborador;
+import model.Colaborador;
 
 public class JanelaConsultarColaboradores extends ViewerAbstrato {
 
@@ -39,6 +40,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	private Colaborador[] listColaborador;
 
 	/**
 	 * Launch the application.
@@ -212,5 +214,17 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		contentPane.add(BtEncerrar);
 		
 		this.setVisible(true);
+	}
+	
+	/**
+	 * Atualiza os dados apresentados no JTable da janela
+	 */
+	public void atualizarDados(Colaborador[] lstColaborador) {
+		this.listColaborador = lstColaborador;
+		HelperTableModel h = new HelperTableModel(listColaborador);
+		if(this.table == null)
+			this.table = new JTable(h.getTableModel());
+		else 
+			this.table.setModel(h.getTableModel());
 	}
 }

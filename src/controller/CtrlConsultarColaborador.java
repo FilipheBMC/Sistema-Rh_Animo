@@ -1,5 +1,7 @@
 package controller;
 
+import model.Colaborador;
+import model.dao.DaoColaborador;
 import viewer.JanelaConsultarColaboradores;
 
 public class CtrlConsultarColaborador extends CtrlAbstrato{
@@ -20,6 +22,13 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	
 	public CtrlConsultarColaborador(CtrlAbstrato ctrl) {
 		super(ctrl);
+	}
+	
+	/**Função para atualizar tabela*/
+	public void atualizarTabela() {
+		DaoColaborador daoColaboradores = new DaoColaborador();
+		Colaborador[] listaColab = daoColaboradores.obterListaObjetos();
+		this.janelaConsultarColaboradores.atualizarDados(listaColab);
 	}
 	
 	/*
@@ -56,6 +65,7 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	@Override
 	public void iniciar() {
 		this.janelaConsultarColaboradores = new JanelaConsultarColaboradores(this);
+		this.atualizarTabela();
 	}
 
 	@Override
