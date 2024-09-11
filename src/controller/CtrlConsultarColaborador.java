@@ -38,8 +38,10 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	//Chamando o Ctrl de adcionar pessoa
 	
 	public void iniciarAdicionarPessoa() {
-		if(ctrlAdicionarColaborador == null)
+		if(ctrlAdicionarColaborador == null) {
 			this.ctrlAdicionarColaborador = new CtrlAdicionarColaborador(this);
+		}
+
 	}
 	
 	public void informarEncerramentoAdicionarColaborador() {
@@ -64,8 +66,9 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 
 	@Override
 	public void iniciar() {
-		this.janelaConsultarColaboradores = new JanelaConsultarColaboradores(this);
-		this.atualizarTabela();
+		DaoColaborador daoColab = new DaoColaborador();
+		Colaborador[] ArrayColaborador = daoColab.obterListaObjetos();
+		this.janelaConsultarColaboradores = new JanelaConsultarColaboradores(this, ArrayColaborador);
 	}
 
 	@Override

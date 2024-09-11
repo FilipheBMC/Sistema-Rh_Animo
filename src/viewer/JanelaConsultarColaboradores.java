@@ -62,7 +62,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 	/**
 	 * Create the frame.
 	 */
-	public JanelaConsultarColaboradores(CtrlConsultarColaborador c) {
+	public JanelaConsultarColaboradores(CtrlConsultarColaborador c, Colaborador[] arrayColaborador) {
 		super(c);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
 		setFont(new Font("Arial Narrow", Font.BOLD, 12));
@@ -86,6 +86,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		this.atualizarDados(arrayColaborador);
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBackground(UIManager.getColor("Button.background"));

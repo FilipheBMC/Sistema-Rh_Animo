@@ -19,7 +19,11 @@ import javax.swing.text.MaskFormatter;
 
 import controller.CtrlAbstrato;
 import controller.CtrlAdicionarColaborador;
+import model.Grupo;
 import model.ModelException;
+import model.Setor;
+import model.dao.DaoGrupo;
+import model.dao.DaoSetor;
 
 public class JanelaAdicionarColaborador extends ViewerAbstrato {
 
@@ -138,6 +142,10 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		contentPane.add(lblCargo);
 		
 		JComboBox CbSetor = new JComboBox();
+		DaoSetor daoSetor = new DaoSetor();
+		Setor[] listaSetores = daoSetor.obterListaObjetos();
+		String[] listaNomeSetores = pegarStringSetor(listaSetores);
+		CbSetor.setModel(new DefaultComboBoxModel(listaNomeSetores));
 		CbSetor.setFont(new Font("Arial", Font.BOLD, 12));
 		CbSetor.setBounds(10, 168, 155, 25);
 		contentPane.add(CbSetor);
@@ -148,6 +156,10 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		contentPane.add(lblGrupo);
 		
 		JComboBox CbGrupo = new JComboBox();
+		DaoGrupo daoGrupo = new DaoGrupo();
+		Grupo[] listaGrupos = daoGrupo.obterListaObjetos();
+		String[] listaNomeGrupos = pegarStringGrupo(listaGrupos);
+		CbGrupo.setModel(new DefaultComboBoxModel(listaNomeGrupos));
 		CbGrupo.setFont(new Font("Arial", Font.BOLD, 12));
 		CbGrupo.setBounds(195, 168, 155, 25);
 		contentPane.add(CbGrupo);
@@ -223,6 +235,24 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		this.setVisible(true);
 	}
 	
+	/**Formar array de strings de setor*/
+	private String[] pegarStringSetor(Setor[] pTransformar) {
+		int tamanho = pTransformar.length;
+		String[] listaStrings = new String[tamanho];
+		for(int i = 0; i < tamanho; i++) {
+			listaStrings[i] = pTransformar[i].getNomeSetor();
+		}
+		return listaStrings;
+	}
 	
+	/**Formar array de strings de grupo*/
+	private String[] pegarStringGrupo(Grupo[] pTransformar) {
+		int tamanho = pTransformar.length;
+		String[] listaStrings = new String[tamanho];
+		for(int i = 0; i < tamanho; i++) {
+			listaStrings[i] = pTransformar[i].getNome();
+		}
+		return listaStrings;
+	}
 
 }

@@ -1,10 +1,11 @@
 package controller;
 
+import model.Colaborador;
+import model.dao.DaoColaborador;
 import model.dao.Serializador;
 import viewer.JanelaAdicionarColaborador;
 import viewer.JanelaConsultarColaboradores;
 import viewer.JanelaPrincipal;
-import viewer.JanelaSetor;
 
 public class CtrlPrograma extends CtrlAbstrato{
 

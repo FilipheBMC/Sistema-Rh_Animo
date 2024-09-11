@@ -35,7 +35,7 @@ public class CtrlAdicionarColaborador extends CtrlAbstrato{
 		this.janelaAdiconarPessoa.notificar(colaborador.toString());
 		CtrlConsultarColaborador ctrlConsulta = (CtrlConsultarColaborador)getCtrlPai();
 		ctrlConsulta.atualizarTabela();
-		
+		fechar();
 	}
 	
 	//Fechando a janela adicionar Colaborador
