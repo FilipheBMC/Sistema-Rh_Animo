@@ -72,6 +72,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
+		
 	    // Adicione o WindowListener
 		//Ele vai chamar o método encerrar e vai fazer com que sempre que se fechar a janela ele seja chamado
 	    this.addWindowListener(new WindowAdapter() {

@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import controller.CtrlAbstrato;
 import controller.CtrlConsultarGrupo;
 import model.Grupo;
 import model.Setor;
@@ -35,6 +36,7 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 	private JTable table;
 	private JTextField TfNomeGrupo;
 	private JTextField TfCodigoGrupo;
+	JComboBox<Object> CbCodSetor;
 	private CtrlConsultarGrupo ctrl = (CtrlConsultarGrupo) getCtrl();
 	private Grupo[] listGrupo;
 
@@ -112,7 +114,7 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 //		    CbCodSetor.addItem(setor);
 //		}
 
-		JComboBox<Object> CbCodSetor = new JComboBox<>();
+		CbCodSetor = new JComboBox<>();
 		CbCodSetor.setFont(new Font("Arial", Font.PLAIN, 12));
 		CbCodSetor.setBounds(10, 65, 150, 24);
 		contentPane.add(CbCodSetor);
@@ -167,7 +169,7 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 
 				CtrlConsultarGrupo ctrl = (CtrlConsultarGrupo) getCtrl();
 				ctrl.iniciarAdicionarGrupo(nome, auxCodGrupo, codigoSetor);
-
+				limparTf();
 			}
 		});
 		BtAdicionarGrupo.setFont(new Font("Arial", Font.BOLD, 12));
@@ -191,6 +193,26 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 		contentPane.add(BtConsultarGrupo);
 
 		JButton BtRemoverGrupo = new JButton("Remover");
+		BtRemoverGrupo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Grupo grupo = receberGrupo();
+				
+				if(grupo == null) {
+		            notificar("Nenhum grupo foi selecionado para exclusão.");
+		            return;  // Sai da função se nenhum setor for selecionado
+				}
+				
+				//Verificando e pegando a instancia da classe CtrlConsultarGrupo
+				CtrlAbstrato ctrl = (CtrlAbstrato)getCtrl();
+				if(ctrl instanceof CtrlConsultarGrupo) {
+					CtrlConsultarGrupo ct = (CtrlConsultarGrupo)getCtrl();
+					ct.iniciarExcluirGrupo(grupo);
+				}
+				else {
+					notificar("Tem de se escolher um grupo para poder ser excluido.");
+				}
+			}
+		});
 		BtRemoverGrupo.setFont(new Font("Arial", Font.BOLD, 12));
 		BtRemoverGrupo.setBounds(480, 65, 90, 24);
 		contentPane.add(BtRemoverGrupo);
@@ -220,5 +242,19 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 			this.table = new JTable(h.getTableModel());
 		else 
 			this.table.setModel(h.getTableModel());
+	}
+	
+	/**Pegando o objeto selecionado pelo usuário*/
+	public Grupo receberGrupo() {
+		int numLinhaSelecionada = this.table.getSelectedRow();
+		if(numLinhaSelecionada != -1)
+			return this.listGrupo[numLinhaSelecionada];
+		return null;
+	}
+	
+	private void limparTf() {
+		this.TfCodigoGrupo.setText("");
+		this.TfNomeGrupo.setText("");
+		this.CbCodSetor.setSelectedIndex(0);
 	}
 }

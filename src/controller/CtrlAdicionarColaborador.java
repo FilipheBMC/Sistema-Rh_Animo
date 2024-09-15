@@ -24,7 +24,7 @@ public class CtrlAdicionarColaborador extends CtrlAbstrato{
 	/**Adicionar colaborador*/
 	public void adicionarColaborador(String nome, String cpf, String DtNascimento,
 									 String DtEntrada, String DtSaida,
-									 int grupo, int setor, String sexo,
+									 Grupo grupo, Setor setor, String sexo,
 									 String cargo)throws ModelException {
 		
 		Colaborador colaborador = new Colaborador(cpf, nome, sexo, DtNascimento, "String do setor",
@@ -35,7 +35,7 @@ public class CtrlAdicionarColaborador extends CtrlAbstrato{
 		this.janelaAdiconarPessoa.notificar(colaborador.toString());
 		CtrlConsultarColaborador ctrlConsulta = (CtrlConsultarColaborador)getCtrlPai();
 		ctrlConsulta.atualizarTabela();
-		fechar();
+		encerrar();
 	}
 	
 	//Fechando a janela adicionar Colaborador

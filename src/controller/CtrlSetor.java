@@ -14,6 +14,7 @@ public class CtrlSetor extends CtrlAbstrato{
 	private JanelaSetor janelaSetor;
 	private Setor setor;
 	private DaoSetor daoSetor;
+	private CtrlExcluirSetor ctrlExcluirSetor;
 	
 	//
 	//	METODOS
@@ -30,14 +31,32 @@ public class CtrlSetor extends CtrlAbstrato{
 		this.setor = new Setor(nome, cod);
 		daoSetor = new DaoSetor();
 		this.daoSetor.adicionar(setor);
+		this.atualizar();
 		this.janelaSetor.notificar(setor.toString());
-		Setor[] listaSetor = daoSetor.obterListaObjetos();
-		janelaSetor.atualizarDados(listaSetor);
+
 		}
 		catch(Exception me) {
 			this.janelaSetor.notificar(me.getMessage());
 		}
 	}
+	
+	//MÉTODO EXCLUIR SETOR
+	public void excluirSetor(Setor setor) {
+		if(ctrlExcluirSetor == null)
+			ctrlExcluirSetor = new CtrlExcluirSetor(this, setor);
+	}
+	
+	public void informarFinalizarExcluirSetor() {
+		ctrlExcluirSetor = null;
+		this.atualizar();
+	}
+	
+	private void atualizar() {
+		daoSetor = new DaoSetor();
+		Setor[] listaSetor = daoSetor.obterListaObjetos();
+		this.janelaSetor.atualizarDados(listaSetor);
+	}
+	
 
 	@Override
 	public void iniciar() {

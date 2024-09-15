@@ -69,6 +69,7 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 		DaoColaborador daoColab = new DaoColaborador();
 		Colaborador[] ArrayColaborador = daoColab.obterListaObjetos();
 		this.janelaConsultarColaboradores = new JanelaConsultarColaboradores(this, ArrayColaborador);
+		this.janelaConsultarColaboradores.atualizarDados(ArrayColaborador);
 	}
 
 	@Override

@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
+
+import model.dao.DaoGrupo;
 
 public class Colaborador implements Serializable{
 
@@ -11,34 +14,32 @@ public class Colaborador implements Serializable{
 	// ATRIBUTOS
 	//
 	
-	private String cpf;
-	private String nome;
-	private String sexo;
-	private String dataNascimento;
-	private String setor;
-	private String cargo;
-	private String dataEntrada;
-	private String dataSaida;
-	private int codigoSetor;
-	private int codigoGrupo;
+	private String 	cpf;
+	private String 	nome;
+	private String 	sexo;
+	private String 	dataNascimento;
+	private String 	cargo;
+	private String 	dataEntrada;
+	private String 	dataSaida;
+	private Setor 	setor;
+	private Grupo 	grupo;
 
 	//
 	// METÓDOS
 	//
 	
 	public Colaborador(String cpf, String nome, String sexo, String dataNascimento, String setor, String cargo,
-			String dataEntrada, String dataSaida, int codigoSetor, int  codigoGrupo) throws ModelException {
+			String dataEntrada, String dataSaida, Setor Setor, Grupo  Grupo) throws ModelException {
 		super();
 		this.setCpf(cpf);
 		this.setNome(nome);
 		this.setSexo(sexo);
 		this.setDataNascimento(dataNascimento);
-		this.setSetor(setor);
 		this.setCargo(cargo);
 		this.setDataEntrada(dataEntrada);
 		this.setDataSaida(dataSaida);
-		this.setCodigoSetor(codigoSetor);
-		this.setCodigoGrupo(codigoGrupo);
+		this.setSetor(Setor);
+		this.setGrupo(Grupo, Setor);
 	}
 
 	public String getCpf() {
@@ -77,15 +78,6 @@ public class Colaborador implements Serializable{
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getSetor() {
-		return setor;
-	}
-
-	public void setSetor(String setor) throws ModelException {
-		validarSetor(setor);
-		this.setor = setor;
-	}
-
 	public String getCargo() {
 		return cargo;
 	}
@@ -115,42 +107,46 @@ public class Colaborador implements Serializable{
 	
 	//MÉTODOS GETS E SETS PARA O SETOR
 	
-	public int getCodigoSetor() {
-		return this.codigoSetor;
+	public Setor getSetor() {
+		return this.setor;
 	}
 	
-	public void setCodigoSetor(int cod)throws ModelException {
-		validaCodigoSetor(cod);
-		this.codigoSetor = cod;
+	public void setSetor(Setor cod)throws ModelException {
+		validaSetor(cod);
+		this.setor = cod;
 	}
 	
 	//MÉTODOS GETS E SETS PARA O GRUPO
 	
-	public int getCodigoGrupo(){
-		return this.codigoGrupo;
+	public Grupo getCodigoGrupo(){
+		return this.grupo;
 	}
 	
-	public void setCodigoGrupo(int cod)throws ModelException {
-		validaCodigoGrupo(cod);
-		this.codigoGrupo = cod;
+	public void setGrupo(Grupo cod, Setor set)throws ModelException {
+		validaGrupo(cod, set);
+		this.grupo = cod;
 	}
 	
 	//
 	//MÉTODOS DE VALIDAÇÃO
 	//
 
-	public static void validaCodigoSetor(int cod)throws ModelException {
+	//Resolver a validação do setor
+	public static void validaSetor(Setor cod)throws ModelException {
 		
-		if(cod == 0 || cod < 0)
-			throw new ModelException("O código não pode ser menor que 0.");
-		if(cod > 100) {
-			throw new ModelException("O código não pode ser maior que 100");
-		}
+		
 	}
 	
-	public static void validaCodigoGrupo(int cod)throws ModelException{
-		if(cod == 0 || cod < 0)
-			throw new ModelException("O código não pode ser menor igual a zero.");
+	//Validação para saber se o código do grupo teme quivalencia com o setor.
+	public static void validaGrupo(Grupo cod, Setor set) throws ModelException {
+	    //DaoGrupo daoGrupo = new DaoGrupo();
+	    //Grupo[] listaGrupos = daoGrupo.obterListaObjetos();
+
+	    int codSetorGrupo = cod.getCodigoSetor().getCodSetor();
+	    int codSetorSetor = set.getCodSetor();
+	    
+	    if(codSetorGrupo != codSetorSetor)
+	    	throw new ModelException("O Setor escolhido não condiz com o grupo selecionado.");
 	}
 	
 	public static void validarCpf(String cpf) throws ModelException {
@@ -197,7 +193,7 @@ public class Colaborador implements Serializable{
 	}
 
 	public static void validarSexo(String sexo) throws ModelException {
-		if (sexo != "M" && sexo != "F") {
+		if (sexo != "Masculino" && sexo != "Feminino") {
 			throw new ModelException("Sexo Inváliado! Use 'M' ou 'F'");
 		}
 	}
@@ -253,6 +249,9 @@ public class Colaborador implements Serializable{
 	public static void validarCargo(String cargo) throws ModelException {
 		if (cargo == null)
 			throw new ModelException("O cargo não pode ser nulo!");
+		
+		if(cargo.equals("Selecione..."))
+			throw new ModelException("Selecione uma opção válida.");
 
 		int tamanho = cargo.length();
 		if (tamanho < 1 || tamanho > 40)

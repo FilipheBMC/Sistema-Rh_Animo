@@ -118,7 +118,7 @@ public class JanelaSetor extends ViewerAbstrato {
 				if (ct instanceof CtrlSetor) {
 					CtrlSetor ctrlSetor = (CtrlSetor) getCtrl();
 					ctrlSetor.adicionarSetor(nome, codigo);
-
+					limpaTf();
 				}
 			}
 
@@ -142,6 +142,24 @@ public class JanelaSetor extends ViewerAbstrato {
 		contentPane.add(btnConsultar);
 
 		btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        Setor setor = receberSetor();
+		        if (setor == null) {
+		            notificar("Nenhum setor foi selecionado para exclusão.");
+		            return;  // Sai da função se nenhum setor for selecionado
+		        }
+
+		        CtrlAbstrato ct = (CtrlAbstrato) getCtrl();
+		        if (ct instanceof CtrlSetor) {
+		            CtrlSetor ctrlSetor = (CtrlSetor) getCtrl();
+		            ctrlSetor.excluirSetor(setor);
+		        } else {
+		            notificar("Tem de se escolher um setor para poder ser excluido.");
+		        }
+		    }
+		});
+
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 12));
 		btnExcluir.setBounds(310, 56, 90, 21);
 		contentPane.add(btnExcluir);
@@ -170,6 +188,19 @@ public class JanelaSetor extends ViewerAbstrato {
 			this.table = new JTable(h.getTableModel());
 		else 
 			this.table.setModel(h.getTableModel());
+	}
+	
+	/**Pegando o objeto selecionado pelo usuário*/
+	public Setor receberSetor() {
+		int numLinhaSelecionada = this.table.getSelectedRow();
+		if(numLinhaSelecionada != -1)
+			return this.listaSetor[numLinhaSelecionada];
+		return null;
+	}
+	
+	private void limpaTf(){
+		this.TfCod.setText("");
+		this.TfNome.setText("");
 	}
 
 }

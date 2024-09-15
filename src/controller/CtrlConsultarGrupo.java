@@ -17,15 +17,27 @@ public class CtrlConsultarGrupo extends CtrlAbstrato {
 	//
 
 	// CTRLS
-	private CtrlAdicionarGrupo ctrlAdicionarGrupo;
+	private CtrlAdicionarGrupo 		ctrlAdicionarGrupo;
+	private CtrlExcluirGrupo		ctrlExcluirGrupo;
 
 	// JANELAS
-	private JanelaConsultarGrupo janelaConsultarGrupo;
+	private JanelaConsultarGrupo 	janelaConsultarGrupo;
 
 	//
 	// MÉTODOS
 	//
+	
+	// ----------- CTRL EXCLUIR GRUPOS ------------------------
 
+	public void iniciarExcluirGrupo(Grupo grupo) {
+		if(ctrlExcluirGrupo == null)
+			this.ctrlExcluirGrupo = new CtrlExcluirGrupo(this, grupo);
+	}
+	
+	public void informarFimDeExcluirGrupo() {
+		this.ctrlExcluirGrupo = null;
+	}
+	
 	// ----------- CTRL ADICIONAR GRUPOS ------------------------
 
 	// Incializando o ctrl
@@ -40,8 +52,7 @@ public class CtrlConsultarGrupo extends CtrlAbstrato {
 			DaoGrupo daoGrupo = new DaoGrupo();
 			daoGrupo.adicionar(grupo);
 			this.janelaConsultarGrupo.notificar(grupo.toString());
-			Grupo[] listaGrupo = daoGrupo.obterListaObjetos();
-			this.janelaConsultarGrupo.atualizarDados(listaGrupo);
+			this.atualziarJanela();
 		}
 		catch(ModelException me) {
 			this.janelaConsultarGrupo.notificar(me.getMessage());
@@ -52,6 +63,14 @@ public class CtrlConsultarGrupo extends CtrlAbstrato {
 	// Informando fim do adicionar grupor
 	public void informandoFimDoAdicionarGrupo() {
 		ctrlAdicionarGrupo = null;
+	}
+	
+	//	MÉTODO DE ATUAZLIAÇÃO DA JANELA
+	
+	public void atualziarJanela() {
+		DaoGrupo daoGrupo = new DaoGrupo();
+		Grupo[] listaGrupo = daoGrupo.obterListaObjetos();
+		this.janelaConsultarGrupo.atualizarDados(listaGrupo);
 	}
 
 	// ---------------------------------------------------------------

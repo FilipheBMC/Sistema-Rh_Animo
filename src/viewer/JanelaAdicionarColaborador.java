@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -77,11 +78,26 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		lblCpf.setBounds(10, 85, 66, 25);
 		contentPane.add(lblCpf);
 		
-		TfCpf = new JTextField();
-		TfCpf.setFont(new Font("Arial", Font.BOLD, 12));
-		TfCpf.setColumns(10);
-		TfCpf.setBounds(10, 106, 155, 25);
-		contentPane.add(TfCpf);
+//		TfCpf = new JTextField();
+//		TfCpf.setFont(new Font("Arial", Font.BOLD, 12));
+//		TfCpf.setColumns(10);
+//		TfCpf.setBounds(10, 106, 155, 25);
+//		contentPane.add(TfCpf);
+
+		try {
+		    // Cria um MaskFormatter para o CPF no formato ###.###.###-##
+		    MaskFormatter cpfMask = new MaskFormatter("###.###.###-##");
+		    cpfMask.setPlaceholderCharacter('_'); // Define o caractere de preenchimento
+
+		    // Cria o JFormattedTextField com a máscara
+		    TfCpf = new JFormattedTextField(cpfMask);
+		    TfCpf.setFont(new Font("Arial", Font.BOLD, 12));
+		    TfCpf.setColumns(10);
+		    TfCpf.setBounds(10, 106, 155, 25);
+		    contentPane.add(TfCpf);
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}
 		
 //		TfDtNasc = new JTextField();
 //		TfDtNasc.setFont(new Font("Arial", Font.BOLD, 12));
@@ -108,11 +124,11 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		lblSexo.setBounds(195, 85, 125, 25);
 		contentPane.add(lblSexo);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Arial", Font.BOLD, 12));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Selecione...", "Homem", "Mulher"}));
-		comboBox.setBounds(195, 106, 155, 25);
-		contentPane.add(comboBox);
+		JComboBox CbSexo = new JComboBox();
+		CbSexo.setFont(new Font("Arial", Font.BOLD, 12));
+		CbSexo.setModel(new DefaultComboBoxModel(new String[] {"Selecione...", "Masculino", "Feminino"}));
+		CbSexo.setBounds(195, 106, 155, 25);
+		contentPane.add(CbSexo);
 		
 		JLabel lblDataEntrada = new JLabel("Data de entrada:");
 		lblDataEntrada.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -169,46 +185,51 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		lblCargo_1.setBounds(372, 141, 66, 25);
 		contentPane.add(lblCargo_1);
 		
-		JComboBox CbGrupo_1 = new JComboBox();
-		CbGrupo_1.setFont(new Font("Arial", Font.BOLD, 12));
-		CbGrupo_1.setBounds(372, 168, 155, 25);
-		contentPane.add(CbGrupo_1);
+		JComboBox CbCargo = new JComboBox();
+		CbCargo.setModel(new DefaultComboBoxModel(new String[] {"Selecione...", "Consultor", "Líder", "Diretor"}));
+		CbCargo.setFont(new Font("Arial", Font.BOLD, 12));
+		CbCargo.setBounds(372, 168, 155, 25);
+		contentPane.add(CbCargo);
 		
 		JButton BtEnviar = new JButton("Enviar");
 		BtEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Pegando as Text Fields
-				String nome = TfNome.getText();
+				String nome = 		TfNome.getText();
 				String Nascimento = TfDtNasc.getText();
-				String DtEntrada = TfDtEntrada.getText();
-				String DtSaida = TfDtSaida.getText();
-				String cpf = TfCpf.getText();
+				String DtEntrada = 	TfDtEntrada.getText();
+				String DtSaida = 	TfDtSaida.getText();
+				String cpf = 		TfCpf.getText();
+				String sexo = 		(String) CbSexo.getSelectedItem().toString();
+				String cargo = 		(String) CbCargo.getSelectedItem().toString();
 				
-				String auxgrupo = (String) CbGrupo.getSelectedItem().toString();
-				String auxsetor = (String) CbSetor.getSelectedItem().toString();
+				String auxGrupo =  (String) CbGrupo.getSelectedItem().toString();
+				String auxSetor =  (String) CbSetor.getSelectedItem().toString();
 				
-				int grupo = 0;
-				int setor = 0;
+				Grupo grupo = null;
+				
+				Setor setor = null;
 				
 				//Validação código grupo
 				try {
-					grupo = Integer.parseInt(auxgrupo);
+					grupo = getGrupo(auxGrupo);
 				}
 				catch(Exception ex) {
-					notificar("O código do grupo deve ser um numeral.");
+					notificar("Escolha uma opção válida para Grupo.");
 				}
 				
+				//Validação Setor
 				try {
-					setor = Integer.parseInt(auxsetor);
+					setor = getSetor(auxSetor);
 				}
 				catch(Exception ex) {
-					notificar("O código do setor deve ser um numeral.");
+					notificar("Escolha uma opção válida para Setor.");
 				}
 				
 				//Ctrl para adicionar colaborador
 				try {
 					CtrlAdicionarColaborador ctrl = (CtrlAdicionarColaborador)getCtrl();
-					ctrl.adicionarColaborador(nome, cpf, Nascimento, DtEntrada, DtSaida, grupo, setor, DtSaida, cpf);	
+					ctrl.adicionarColaborador(nome, cpf, Nascimento, DtEntrada, DtSaida, grupo, setor, sexo, cargo);	
 				}
 				catch(ModelException me) {
 					notificar(me.toString());
@@ -225,7 +246,7 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		BtCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CtrlAdicionarColaborador ctrl = (CtrlAdicionarColaborador)getCtrl();
-				ctrl.fechar();
+				ctrl.encerrar();
 			}
 		});
 		BtCancelar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -254,5 +275,45 @@ public class JanelaAdicionarColaborador extends ViewerAbstrato {
 		}
 		return listaStrings;
 	}
+	
+	/**Pegando o Grupo através da String*/
+	private Grupo getGrupo(String grupo) {
+		DaoGrupo daoGrupo = new DaoGrupo();
+		Grupo[] listaGrupo = daoGrupo.obterListaObjetos();
+		
+		for(int i = 0, g = listaGrupo.length; i < g; i++) {
+			if(grupo.equals(listaGrupo[i].getNome()))
+					return listaGrupo[i];
+		}
+		return null;
+	}
+	
+	/**Pegando o Setor através da String*/
+	private Setor getSetor(String setor) {
+		DaoSetor daoSetor = new DaoSetor();
+		Setor[] listaSetor = daoSetor.obterListaObjetos();
+		
+		for(int i = 0, g = listaSetor.length; i < g; i++) {
+			if(setor.equals(listaSetor[i].getNomeSetor()))
+					return listaSetor[i];
+		}
+		return null;
+	}
+	
+	/*
+	//Depois vou pensar em uma boa form de fazer isso
+	/**Preenche o grupo de acordo com os grupo validos no setor escolhido
+	private List<Grupo> preencherGrupo(Grupo[] listDruposDDao, Setor setor) {
+		List<Grupo> listaGrupo = null;
+		for(int i = 0, g = listDruposDDao.length; i < g; i++) {
+			if(listDruposDDao[i].getCodigoSetor().getCodSetor() == setor.getCodSetor()) {
+				listaGrupo.add(listDruposDDao[i]);
+			}
+		}
+		
+		return listaGrupo;
+
+	}
+	*/
 
 }
