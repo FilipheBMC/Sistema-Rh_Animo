@@ -45,6 +45,8 @@ public class CtrlPrograma extends CtrlAbstrato{
 		this.janela = new JanelaPrincipal(this);				
 	}
 	
+	//~~~~~~~~~~	 CTRLS DE CONSULTAR	   ~~~~~~~~~~
+	
 	//----------- CTRL CONSULTAR COLABORADORES ------------------------
 	
 	/*

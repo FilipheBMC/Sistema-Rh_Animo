@@ -4,6 +4,7 @@ import model.Grupo;
 import model.ModelException;
 import model.Setor;
 import model.dao.DaoGrupo;
+import model.dao.DaoSetor;
 import viewer.JanelaConsultarGrupo;
 
 public class CtrlConsultarGrupo extends CtrlAbstrato {
@@ -19,6 +20,7 @@ public class CtrlConsultarGrupo extends CtrlAbstrato {
 	// CTRLS
 	private CtrlAdicionarGrupo 		ctrlAdicionarGrupo;
 	private CtrlExcluirGrupo		ctrlExcluirGrupo;
+	private CtrlAlterarGrupo		ctrlAlterarGrupo;
 
 	// JANELAS
 	private JanelaConsultarGrupo 	janelaConsultarGrupo;
@@ -59,6 +61,26 @@ public class CtrlConsultarGrupo extends CtrlAbstrato {
 		}
 
 	}
+	
+	//-----------------		CTRL ALTERAR GRUPO		-----------------------
+	
+	public void iniciarAlterarGrupo(Grupo grupo) {
+		
+		DaoSetor daoSetor = new DaoSetor();
+		Setor[] listaSetor = daoSetor.obterListaObjetos();
+		
+		
+		
+		if(ctrlAlterarGrupo == null)
+			ctrlAlterarGrupo = new CtrlAlterarGrupo(this, grupo, listaSetor);
+	}
+	
+	public void informarFimAlterarGrupo() {
+		ctrlAlterarGrupo = null;
+		this.atualziarJanela();
+	}
+	
+	//---------------------------------------------------------------------
 
 	// Informando fim do adicionar grupor
 	public void informandoFimDoAdicionarGrupo() {

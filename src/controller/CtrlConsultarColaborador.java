@@ -11,7 +11,7 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	//
 	
 	//	JANELAS
-	private JanelaConsultarColaboradores janelaConsultarColaboradores;
+	private JanelaConsultarColaboradores 	janelaConsultarColaboradores;
 	
 	//
 	//	CTRLS
@@ -19,6 +19,7 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	
 	private CtrlAdicionarColaborador 		ctrlAdicionarColaborador;
 	private CtrlAlterarColaborador 			ctrlAlterarColaborador;
+	private CtrlExcluirColaborador			ctrlExcluirColaborador;
 	
 	public CtrlConsultarColaborador(CtrlAbstrato ctrl) {
 		super(ctrl);
@@ -26,10 +27,12 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	
 	/**Função para atualizar tabela*/
 	public void atualizarTabela() {
+		System.out.println("outro erro");
 		DaoColaborador daoColaboradores = new DaoColaborador();
 		Colaborador[] listaColab = daoColaboradores.obterListaObjetos();
 		this.janelaConsultarColaboradores.atualizarDados(listaColab);
 	}
+
 	
 	/*
 	 * Chamando os Ctrls para serem incializados e encerrados
@@ -45,21 +48,37 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	}
 	
 	public void informarEncerramentoAdicionarColaborador() {
+		this.atualizarTabela();
 		this.ctrlAdicionarColaborador = null;
 	}
 	
 	//Chamando o Ctrl de alterarcolaborador
 	
-	public void iniciarAlterarColaborador() {
+	public void iniciarAlterarColaborador(Colaborador colaboradorSelecionado) {
 		if(ctrlAlterarColaborador == null)
-			this.ctrlAlterarColaborador = new CtrlAlterarColaborador(this);
+			this.ctrlAlterarColaborador = new CtrlAlterarColaborador(this, colaboradorSelecionado);
 	}
 	
 	public void informarEncerramentoAlterarColaborador() {
+		this.atualizarTabela();
 		this.ctrlAlterarColaborador = null;
 	}
 	
 	// -----------    #-#    --------------
+	//Chamando o inciar e finalizar exclusão de colaborador
+	
+	public void iniciarExcluirColaborador(Colaborador colaborador) {
+		if(ctrlExcluirColaborador == null)
+			this.ctrlExcluirColaborador = new CtrlExcluirColaborador(this, colaborador);
+	}
+	
+	public void informarFinalizacaoExcluirColaborador() {
+		this.atualizarTabela();
+		ctrlExcluirColaborador = null;
+	}
+	
+	// -----------    #-#    --------------
+	
 	
 	//Chamando o Adicionar Colaborador
 	

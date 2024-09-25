@@ -30,6 +30,8 @@ public class CtrlExcluirSetor extends CtrlAbstrato{
 		encerrar();
 	}
 	
+
+	
 	public void iniciar() {
 		//Ver no contrutor que vai estar lá a inicialização
 	}

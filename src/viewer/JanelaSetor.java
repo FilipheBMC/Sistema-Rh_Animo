@@ -18,9 +18,12 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import controller.CtrlAbstrato;
 import controller.CtrlSetor;
+import model.Setor;
 import model.Setor;
 
 public class JanelaSetor extends ViewerAbstrato {
@@ -48,7 +51,7 @@ public class JanelaSetor extends ViewerAbstrato {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				"C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
 		setFont(new Font("Arial Narrow", Font.BOLD, 12));
-		setTitle("Consulta de Colaboradores");
+		setTitle("Consulta de Setores");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 660, 412);
 		contentPane = new JPanel();
@@ -91,7 +94,7 @@ public class JanelaSetor extends ViewerAbstrato {
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBackground(UIManager.getColor("Button.background"));
-		table.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Lista de colaboradores",
+		table.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Lista de Setores",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		table.setToolTipText("");
 		table.setBounds(10, 143, 626, 232);
@@ -132,6 +135,20 @@ public class JanelaSetor extends ViewerAbstrato {
 		contentPane.add(BtAdicionar);
 
 		btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Setor setor = receberSetor();
+				if(setor == null)
+				{
+					notificar("Tem de se escolher um setor para poder altera-lo.");
+					return;
+				}
+				
+				CtrlSetor ctrlSetor = (CtrlSetor)getCtrl();
+				ctrlSetor.iniciarAlterarSetor(setor);
+			}
+		});
 		btnAlterar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnAlterar.setBounds(110, 56, 90, 21);
 		contentPane.add(btnAlterar);
@@ -181,13 +198,29 @@ public class JanelaSetor extends ViewerAbstrato {
 	/**
 	 * Atualiza os dados apresentados no JTable da janela
 	 */
+//	public void atualizarDados(Setor[] lstSetor) {
+//		this.listaSetor = lstSetor;
+//		HelperTableModel h = new HelperTableModel(listaSetor);
+//		if(this.table == null)
+//			this.table = new JTable(h.getTableModel());
+//		else 
+//			this.table.setModel(h.getTableModel());
+//	}
 	public void atualizarDados(Setor[] lstSetor) {
-		this.listaSetor = lstSetor;
-		HelperTableModel h = new HelperTableModel(listaSetor);
-		if(this.table == null)
-			this.table = new JTable(h.getTableModel());
-		else 
-			this.table.setModel(h.getTableModel());
+	    this.listaSetor = lstSetor;
+	    HelperTableModel h = new HelperTableModel(listaSetor);
+	    TableModel model = h.getTableModel();
+
+	    if (model == null) {
+	        // Em caso de erro, configurar um modelo vazio
+	        model = new DefaultTableModel(new Object[][]{}, new String[]{"Coluna1", "Coluna2", "Coluna3"});
+	    }
+
+	    if (this.table == null) {
+	        this.table = new JTable(model);
+	    } else {
+	        this.table.setModel(model);
+	    }
 	}
 	
 	/**Pegando o objeto selecionado pelo usuário*/

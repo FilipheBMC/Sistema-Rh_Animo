@@ -19,9 +19,13 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import controller.CtrlAbstrato;
+import controller.CtrlAlterarGrupo;
 import controller.CtrlConsultarGrupo;
+import model.Colaborador;
 import model.Grupo;
 import model.Setor;
 import model.dao.DaoSetor;
@@ -183,6 +187,20 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 		contentPane.add(TfCodigoGrupo);
 
 		JButton BtAlterarGrupo = new JButton("Alterar");
+		BtAlterarGrupo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Grupo grupo = receberGrupo();
+				
+				if(grupo == null) {
+					notificar("O escolha um grupo para poder altera-lo.");
+					return;
+				}
+				
+				CtrlConsultarGrupo ctrl = (CtrlConsultarGrupo)getCtrl();
+				ctrl.iniciarAlterarGrupo(grupo);
+			}
+		});
 		BtAlterarGrupo.setFont(new Font("Arial", Font.BOLD, 12));
 		BtAlterarGrupo.setBounds(280, 65, 90, 24);
 		contentPane.add(BtAlterarGrupo);
@@ -235,13 +253,29 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 	/**
 	 * Atualiza os dados apresentados no JTable da janela
 	 */
+//	public void atualizarDados(Grupo[] lstGrupo) {
+//		this.listGrupo = lstGrupo;
+//		HelperTableModel h = new HelperTableModel(listGrupo);
+//		if(this.table == null)
+//			this.table = new JTable(h.getTableModel());
+//		else 
+//			this.table.setModel(h.getTableModel());
+//	}
 	public void atualizarDados(Grupo[] lstGrupo) {
-		this.listGrupo = lstGrupo;
-		HelperTableModel h = new HelperTableModel(listGrupo);
-		if(this.table == null)
-			this.table = new JTable(h.getTableModel());
-		else 
-			this.table.setModel(h.getTableModel());
+	    this.listGrupo = lstGrupo;
+	    HelperTableModel h = new HelperTableModel(listGrupo);
+	    TableModel model = h.getTableModel();
+
+	    if (model == null) {
+	        // Em caso de erro, configurar um modelo vazio
+	        model = new DefaultTableModel(new Object[][]{}, new String[]{"Coluna1", "Coluna2", "Coluna3"});
+	    }
+
+	    if (this.table == null) {
+	        this.table = new JTable(model);
+	    } else {
+	        this.table.setModel(model);
+	    }
 	}
 	
 	/**Pegando o objeto selecionado pelo usuário*/
