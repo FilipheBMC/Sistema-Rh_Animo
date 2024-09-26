@@ -206,6 +206,37 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 		contentPane.add(BtAlterarGrupo);
 
 		JButton BtConsultarGrupo = new JButton("Consultar");
+		BtConsultarGrupo.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String nome = TfNomeGrupo.getText();
+		        String codigo = TfCodigoGrupo.getText();
+		        
+		        Object selectedItem = CbCodSetor.getSelectedItem();
+		        Setor codigoSetor = null;
+
+		        CtrlConsultarGrupo ctrl = (CtrlConsultarGrupo) getCtrl();
+		        
+		        if (selectedItem instanceof Setor) {
+		            codigoSetor = (Setor) selectedItem;
+		        } else if (selectedItem instanceof String && selectedItem.equals("Selecione...")) {
+		        	ctrl.atualziarJanela();
+		            notificar("Por favor, selecione um setor válido.");
+		            return; // Saia do método caso "Selecione..." esteja selecionado
+		        } 
+		        
+		        // Corrigido para obter o setor corretamente
+		        Setor setor = (Setor) CbCodSetor.getSelectedItem();
+		        
+		        if (CbCodSetor.getSelectedIndex() == 0) {
+		            setor = null;
+		        }
+		        
+		        // Use o Setor para consultar os Grupos, ajustando a lógica da consulta
+
+		        ctrl.consulta(nome, codigo, setor);  // Certifique-se de que o método 'consulta' aceite um Setor
+		    }
+		});
+
 		BtConsultarGrupo.setFont(new Font("Arial", Font.BOLD, 12));
 		BtConsultarGrupo.setBounds(380, 65, 90, 24);
 		contentPane.add(BtConsultarGrupo);

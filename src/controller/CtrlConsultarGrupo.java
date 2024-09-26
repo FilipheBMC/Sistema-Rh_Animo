@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.Grupo;
 import model.ModelException;
 import model.Setor;
@@ -97,6 +100,49 @@ public class CtrlConsultarGrupo extends CtrlAbstrato {
 
 	// ---------------------------------------------------------------
 
+	//		MÉTODO DE CONSULTA
+	
+	public void consulta(String nome, String codGrupo, Setor setor) {
+	    DaoGrupo daoGrupo = new DaoGrupo();
+	    Grupo[] listaGrupos = daoGrupo.obterListaObjetos();
+	    List<Grupo> gruposEncontrados = new ArrayList<>();
+	    int tamGrupo = listaGrupos.length;
+
+	    if (nome.isEmpty() && codGrupo.isEmpty() && setor == null) {
+	    	atualziarJanela();
+	        janelaConsultarGrupo.notificar("Para consultar os grupos, insira ao menos um critério.");
+	        return;
+	    }
+	    
+	    for (int i = 0; i < tamGrupo; i++) {
+	        Grupo grupo = listaGrupos[i];
+	        
+	        // Comparar por nome se o nome não for vazio
+	        if (!nome.isEmpty() && grupo.getNome().equalsIgnoreCase(nome)) {
+	            gruposEncontrados.add(grupo);
+	        }
+	        
+	        // Comparar por código do grupo se fornecido
+	        if (!codGrupo.isEmpty() && grupo.getCodigoGrupo().equalsIgnoreCase(codGrupo)) {
+	            gruposEncontrados.add(grupo);
+	        }
+	        
+	        // Comparar por setor se fornecido
+	        if (setor != null && grupo.getCodigoSetor().getCodSetor() == setor.getCodSetor()) {
+	            gruposEncontrados.add(grupo);
+	        }
+	    }
+
+	    if (!gruposEncontrados.isEmpty()) {
+	        Grupo[] arrayGruposEncontrados = gruposEncontrados.toArray(new Grupo[0]);
+	        this.janelaConsultarGrupo.atualizarDados(arrayGruposEncontrados);  // Atualiza JTable com os grupos encontrados
+	    } else {
+	        this.atualziarJanela();  // Atualizar a janela com todos os grupos
+	        this.janelaConsultarGrupo.notificar("Nenhum grupo foi encontrado.");
+	    }
+	}
+
+	
 	// MÉTODOS DA CLASSE ABSTRATA
 
 	@Override

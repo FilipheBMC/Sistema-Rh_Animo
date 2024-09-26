@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,7 +24,6 @@ import javax.swing.table.TableModel;
 
 import controller.CtrlAbstrato;
 import controller.CtrlSetor;
-import model.Setor;
 import model.Setor;
 
 public class JanelaSetor extends ViewerAbstrato {
@@ -154,6 +154,33 @@ public class JanelaSetor extends ViewerAbstrato {
 		contentPane.add(btnAlterar);
 
 		btnConsultar = new JButton("Consultar");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nomeSetor = TfNome.getText();
+				String aux = TfCod.getText();
+				int cod = 0;
+				
+				CtrlSetor ctrl = (CtrlSetor)getCtrl();
+				
+				if(nomeSetor.isEmpty() && cod == 0) {
+					ctrl.atualizar();
+				}
+
+				try {
+					cod = Integer.parseInt(aux);
+				}
+				catch(Exception e1) {
+					notificar("O código deve ser um numero inteiro válido.");
+					return;
+				}
+				
+
+				
+				
+				ctrl.Consulta(nomeSetor, cod);
+				
+			}
+		});
 		btnConsultar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnConsultar.setBounds(210, 56, 90, 21);
 		contentPane.add(btnConsultar);

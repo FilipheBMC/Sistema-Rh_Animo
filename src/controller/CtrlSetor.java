@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.Setor;
 import model.dao.DaoSetor;
 import viewer.JanelaSetor;
@@ -50,7 +53,7 @@ public class CtrlSetor extends CtrlAbstrato {
 		this.atualizar();
 	}
 
-	private void atualizar() {
+	public void atualizar() {
 		daoSetor = new DaoSetor();
 		Setor[] listaSetor = daoSetor.obterListaObjetos();
 		this.janelaSetor.atualizarDados(listaSetor);
@@ -73,6 +76,46 @@ public class CtrlSetor extends CtrlAbstrato {
 	/**
 	 * Consultando setores existentes.
 	 * */
+	public void Consulta(String nome, int codigo) {
+	    daoSetor = new DaoSetor();
+	    
+	    // Se nenhum campo estiver preenchido, notifica o usuário
+	    if (nome.isEmpty() && codigo == 0) {
+	        this.atualizar();  // Aqui ele deveria atualizar para o estado original
+	        this.janelaSetor.notificar("Para consultar o setor, preencha algum campo.");
+	        return;
+	    }
+
+	    Setor[] listaSetores = daoSetor.obterListaObjetos();
+	    List<Setor> setoresEncontrados = new ArrayList<>();  // Usar lista para evitar posições nulas
+
+	    // Se o código for zero, busca por nome
+	    if (codigo == 0) {
+	        for (Setor setor : listaSetores) {
+	            if (nome.equalsIgnoreCase(setor.getNomeSetor())) {  // Verifica o nome
+	                setoresEncontrados.add(setor);
+	            }
+	        }
+	    }
+	    // Se o nome estiver vazio, busca por código
+	    else if (nome.isEmpty()) {
+	        for (Setor setor : listaSetores) {
+	            if (codigo == setor.getCodSetor()) {  // Verifica o código
+	                setoresEncontrados.add(setor);
+	            }
+	        }
+	    }
+
+	    // Atualiza a tabela com os resultados da busca
+	    if (!setoresEncontrados.isEmpty()) {
+	        Setor[] arraySetoresEncontrados = setoresEncontrados.toArray(new Setor[0]);
+	        this.janelaSetor.atualizarDados(arraySetoresEncontrados);  // Atualiza JTable com os setores encontrados
+	    } else {
+	        this.janelaSetor.atualizarDados(listaSetores);  // Aqui, restaura a tabela original
+	        this.janelaSetor.notificar("Nenhum setor foi encontrado.");
+	    }
+	}
+
 
 	@Override
 	public void iniciar() {

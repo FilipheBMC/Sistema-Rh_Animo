@@ -26,6 +26,8 @@ import javax.swing.table.TableModel;
 import controller.CtrlAbstrato;
 import controller.CtrlConsultarColaborador;
 import model.Colaborador;
+import model.Grupo;
+import model.Setor;
 
 public class JanelaConsultarColaboradores extends ViewerAbstrato {
 
@@ -36,8 +38,9 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField TfNome;
+	private JTextField TfDtNascimeto;
+	private JComboBox cbSexo;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
@@ -97,49 +100,50 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		lblNewLabel.setBounds(10, 10, 48, 19);
 		contentPane.add(lblNewLabel);
 
-		textField = new JTextField();
-		textField.setBounds(88, 11, 104, 21);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		TfNome = new JTextField();
+		TfNome.setBounds(88, 11, 104, 21);
+		contentPane.add(TfNome);
+		TfNome.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Setor:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(222, 48, 48, 19);
 		contentPane.add(lblNewLabel_1);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Selecione...", "Ti", "Recursos Humanos",
+		//Resovler aqui, colocar a lista para fazer com que se possa escolher conforme os setores existentes.
+		JComboBox cbSetor = new JComboBox();
+		cbSetor.setModel(new DefaultComboBoxModel(new String[] { "Selecione...", "Ti", "Recursos Humanos",
 				"Financeiro", "Comercial", "Marketing", "Projetos" }));
-		comboBox.setBounds(269, 49, 125, 21);
-		contentPane.add(comboBox);
+		cbSetor.setBounds(269, 49, 125, 21);
+		contentPane.add(cbSetor);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Cargo:");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_1.setBounds(436, 49, 48, 19);
 		contentPane.add(lblNewLabel_1_1);
 
-		JLabel lblNewLabel_1_1_1 = new JLabel("Equipe:");
+		JLabel lblNewLabel_1_1_1 = new JLabel("Grupo:");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_1_1.setBounds(436, 14, 48, 19);
 		contentPane.add(lblNewLabel_1_1_1);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(494, 10, 125, 21);
-		contentPane.add(comboBox_1);
+		JComboBox cbGrupo = new JComboBox();
+		cbGrupo.setBounds(494, 10, 125, 21);
+		contentPane.add(cbGrupo);
 
-		JComboBox comboBox_1_1 = new JComboBox();
-		comboBox_1_1.setBounds(494, 49, 125, 21);
-		contentPane.add(comboBox_1_1);
+		JComboBox cbCargo = new JComboBox();
+		cbCargo.setBounds(494, 49, 125, 21);
+		contentPane.add(cbCargo);
 
 		JLabel lblDataDeNascimento = new JLabel("Data Nasc:");
 		lblDataDeNascimento.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDataDeNascimento.setBounds(10, 47, 95, 21);
 		contentPane.add(lblDataDeNascimento);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(88, 49, 104, 21);
-		contentPane.add(textField_1);
+		TfDtNascimeto = new JTextField();
+		TfDtNascimeto.setColumns(10);
+		TfDtNascimeto.setBounds(88, 49, 104, 21);
+		contentPane.add(TfDtNascimeto);
 
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -172,6 +176,19 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		contentPane.add(textField_4);
 
 		JButton btnNewButton = new JButton("Consultar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nome = TfNome.getText();
+				String dtNascimento = TfDtNascimeto.getText();
+				String sexo = (String) cbSexo.getSelectedObjects().toString();
+				Setor setor = (Setor)cbSetor.getSelectedItem();
+				Grupo grupo = (Grupo)cbGrupo.getSelectedItem();
+				
+				CtrlConsultarColaborador ctrl = (CtrlConsultarColaborador)getCtrl();
+				ctrl.conuslta(nome, dtNascimento, setor, grupo, sexo);
+				
+			}
+		});
 		btnNewButton.setBounds(10, 115, 85, 21);
 		contentPane.add(btnNewButton);
 
@@ -241,6 +258,16 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		});
 		BtEncerrar.setBounds(399, 115, 85, 21);
 		contentPane.add(BtEncerrar);
+		
+		JLabel sdasmndajsd = new JLabel("Sexo:");
+		sdasmndajsd.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		sdasmndajsd.setBounds(436, 90, 48, 19);
+		contentPane.add(sdasmndajsd);
+		
+		cbSexo = new JComboBox();
+		cbSexo.setModel(new DefaultComboBoxModel(new String[] {"Selecione...", "Masculino", "Feminino"}));
+		cbSexo.setBounds(494, 86, 125, 21);
+		contentPane.add(cbSexo);
 
 		this.setVisible(true);
 	}

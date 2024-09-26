@@ -1,6 +1,11 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.Colaborador;
+import model.Grupo;
+import model.Setor;
 import model.dao.DaoColaborador;
 import viewer.JanelaConsultarColaboradores;
 
@@ -75,6 +80,60 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	public void informarFinalizacaoExcluirColaborador() {
 		this.atualizarTabela();
 		ctrlExcluirColaborador = null;
+	}
+	
+	//
+	//		CONSULTA DE COLABORADOR
+	//
+	
+	public void conuslta(String nome, String dtNascimento, Setor setor, Grupo grupo, String sexo) {
+		DaoColaborador daoColaborador = new DaoColaborador();
+		Colaborador[] listaColab = daoColaborador.obterListaObjetos();
+		List<Colaborador> colaboradorEncontrados = new ArrayList<Colaborador>();
+		int tamColab = listaColab.length;
+		
+		if(!nome.isEmpty()) {
+			for(int i =0; i < tamColab; i++) {
+				if(nome.equalsIgnoreCase(listaColab[i].getNome()))
+					colaboradorEncontrados.add(listaColab[i]);
+			}
+		}
+		else if(!dtNascimento.isEmpty()) {
+			for(int  i = 0; i < tamColab; i++) {
+				if(dtNascimento.equals(listaColab[i].getNome()))
+					colaboradorEncontrados.add(listaColab[i]);
+			}
+		}
+		
+		else if(setor != null) {
+			for(int i = 0; i < tamColab; i++) {
+				if(setor.getCodSetor() == listaColab[i].getSetor().getCodSetor())
+					colaboradorEncontrados.add(listaColab[i]);
+			}
+		}
+		
+		else if(grupo != null) {
+			for(int i = 0; i < tamColab; i++) {
+				if(grupo.getCodigoGrupo().equalsIgnoreCase(listaColab[i].getCodigoGrupo().getCodigoGrupo()))
+					colaboradorEncontrados.add(listaColab[i]);
+			}
+		}
+		
+		else if(!sexo.isEmpty()) {
+			for(int i = 0; i < tamColab; i++) {
+				if(sexo.equalsIgnoreCase(listaColab[i].getSexo()))
+					colaboradorEncontrados.add(listaColab[i]);
+			}
+		}
+		
+		if (!colaboradorEncontrados.isEmpty()) {
+	        Grupo[] arrayGruposEncontrados = colaboradorEncontrados.toArray(new Grupo[0]);
+	        this.janelaConsultarColaboradores.atualizarDados(listaColab);  // Atualiza JTable com os grupos encontrados
+	    }
+		else {
+			this.atualizarTabela(); // Atualizar a janela com todos os grupos
+	        this.janelaConsultarColaboradores.notificar("Nenhum grupo foi encontrado.");
+		}
 	}
 	
 	// -----------    #-#    --------------
