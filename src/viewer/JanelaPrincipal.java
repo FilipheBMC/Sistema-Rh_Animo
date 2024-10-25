@@ -25,7 +25,7 @@ public class JanelaPrincipal extends ViewerAbstrato {
 	public JanelaPrincipal(CtrlPrograma ctrl) {
 		// Guardo a referência para o controlador do programa
 		super(ctrl);
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Brandão\\3D Objects\\Projetos\\Rh Animo JAva\\rhAnimo\\animo.png"));
 		setTitle("Sistema de Rh Animo Consultoria");
 
 
@@ -70,10 +70,20 @@ public class JanelaPrincipal extends ViewerAbstrato {
 		contentPane.add(BtSetor);
 		
 		JButton btnImportarDados = new JButton("Importar Dados");
+		btnImportarDados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctrl.importarDados();
+			}
+		});
 		btnImportarDados.setBounds(448, 10, 141, 47);
 		contentPane.add(btnImportarDados);
 		
 		JButton btnExportarDados = new JButton("Exportar Dados");
+		btnExportarDados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctrl.exportarDados();
+			}
+		});
 		btnExportarDados.setBounds(10, 77, 141, 47);
 		contentPane.add(btnExportarDados);
 		

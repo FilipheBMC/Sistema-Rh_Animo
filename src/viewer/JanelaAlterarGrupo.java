@@ -1,6 +1,7 @@
 package viewer;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -35,6 +36,8 @@ public class JanelaAlterarGrupo extends ViewerAbstrato {
 	//
 	public JanelaAlterarGrupo(CtrlAbstrato c, Grupo grupo, Setor[] listaGrupo) {
 		super(c);
+		setTitle("Alterar Grupo");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Brandão\\3D Objects\\Projetos\\Rh Animo JAva\\rhAnimo\\animo.png"));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(00, 100, 660, 412);
 		contentPane = new JPanel();

@@ -31,20 +31,24 @@ public class CtrlAlterarGrupo extends CtrlAbstrato{
 		this.janelaAlterarGrupo = new JanelaAlterarGrupo(this, grupoAlterar, listaSetor);
 	}
 	
+	//Não estou entendendo bem mas não precisará desses ifs para verificação do antigo para o novo tem de ser resovlido esse problema
 	public void AlterarGrupo(String nome, String codigo, Setor setor) {
-		if(grupoAntigo.getCodigoSetor() != grupoAlterar.getCodigoSetor()) {
+		if(grupoAntigo.getCodigoSetor() == grupoAlterar.getCodigoSetor()) {
 			try {
 				this.grupoAlterar.setCodigoSetor(setor);
-
+				DaoGrupo d = new DaoGrupo();
+				d.alterar(grupoAlterar);
 			}
 			catch(ModelException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		if(!grupoAlterar.getNome().equals(grupoAntigo.getNome())) {
+		if(grupoAlterar.getNome().equals(grupoAntigo.getNome())) {
 			try {
 				this.grupoAlterar.setNome(nome);
+				DaoGrupo d = new DaoGrupo();
+				d.alterar(grupoAlterar);
 			}
 			catch(ModelException e) {
 				e.printStackTrace();
@@ -54,6 +58,8 @@ public class CtrlAlterarGrupo extends CtrlAbstrato{
 		if(grupoAlterar.getCodigoGrupo().equals(grupoAntigo.getCodigoGrupo())) {
 			try {
 				this.grupoAlterar.setCodigoGrupo(codigo);
+				DaoGrupo d = new DaoGrupo();
+				d.alterar(grupoAlterar);
 			}
 			catch(ModelException e) {
 				e.printStackTrace();
@@ -68,6 +74,7 @@ public class CtrlAlterarGrupo extends CtrlAbstrato{
 				try {
 					listaColaborador[i].setGrupo(grupoAlterar, null);
 					daoColaborador.alterar(listaColaborador[i]);
+					System.out.println("Funcionou!");
 				} catch (ModelException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

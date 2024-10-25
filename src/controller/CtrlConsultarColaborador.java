@@ -7,6 +7,8 @@ import model.Colaborador;
 import model.Grupo;
 import model.Setor;
 import model.dao.DaoColaborador;
+import model.dao.DaoGrupo;
+import model.dao.DaoSetor;
 import viewer.JanelaConsultarColaboradores;
 
 public class CtrlConsultarColaborador extends CtrlAbstrato{
@@ -94,7 +96,7 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 		
 		if(!nome.isEmpty()) {
 			for(int i =0; i < tamColab; i++) {
-				if(nome.equalsIgnoreCase(listaColab[i].getNome()))
+				if(nome.equals(listaColab[i].getNome()))
 					colaboradorEncontrados.add(listaColab[i]);
 			}
 		}
@@ -114,26 +116,26 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 		
 		else if(grupo != null) {
 			for(int i = 0; i < tamColab; i++) {
-				if(grupo.getCodigoGrupo().equalsIgnoreCase(listaColab[i].getCodigoGrupo().getCodigoGrupo()))
+				if(grupo.getCodigoGrupo().equals(listaColab[i].getCodigoGrupo().getCodigoGrupo()))
 					colaboradorEncontrados.add(listaColab[i]);
 			}
 		}
 		
-		else if(!sexo.isEmpty()) {
+		else if(sexo != null) {
 			for(int i = 0; i < tamColab; i++) {
-				if(sexo.equalsIgnoreCase(listaColab[i].getSexo()))
+				if(sexo.equals(listaColab[i].getSexo()))
 					colaboradorEncontrados.add(listaColab[i]);
 			}
 		}
 		
 		if (!colaboradorEncontrados.isEmpty()) {
-	        Grupo[] arrayGruposEncontrados = colaboradorEncontrados.toArray(new Grupo[0]);
-	        this.janelaConsultarColaboradores.atualizarDados(listaColab);  // Atualiza JTable com os grupos encontrados
-	    }
-		else {
-			this.atualizarTabela(); // Atualizar a janela com todos os grupos
-	        this.janelaConsultarColaboradores.notificar("Nenhum grupo foi encontrado.");
+		    Colaborador[] arrayColaboradoresEncontrados = colaboradorEncontrados.toArray(new Colaborador[0]);
+		    this.janelaConsultarColaboradores.atualizarDados(arrayColaboradoresEncontrados); // Atualiza JTable com os colaboradores encontrados
+		} else {
+		    this.atualizarTabela(); // Atualizar a janela com todos os colaboradores
+		    this.janelaConsultarColaboradores.notificar("Nenhum colaborador foi encontrado.");
 		}
+
 	}
 	
 	// -----------    #-#    --------------
@@ -146,7 +148,11 @@ public class CtrlConsultarColaborador extends CtrlAbstrato{
 	public void iniciar() {
 		DaoColaborador daoColab = new DaoColaborador();
 		Colaborador[] ArrayColaborador = daoColab.obterListaObjetos();
-		this.janelaConsultarColaboradores = new JanelaConsultarColaboradores(this, ArrayColaborador);
+		DaoSetor daoSetor = new DaoSetor();
+		Setor[] listaSetor = daoSetor.obterListaObjetos();
+		DaoGrupo daoGrupo = new DaoGrupo();
+		Grupo[] listaGrupo = daoGrupo.obterListaObjetos();
+		this.janelaConsultarColaboradores = new JanelaConsultarColaboradores(this, ArrayColaborador, listaSetor, listaGrupo);
 		this.janelaConsultarColaboradores.atualizarDados(ArrayColaborador);
 	}
 

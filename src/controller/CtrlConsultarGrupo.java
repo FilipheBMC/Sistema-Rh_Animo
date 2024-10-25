@@ -76,6 +76,7 @@ public class CtrlConsultarGrupo extends CtrlAbstrato {
 		
 		if(ctrlAlterarGrupo == null)
 			ctrlAlterarGrupo = new CtrlAlterarGrupo(this, grupo, listaSetor);
+		
 	}
 	
 	public void informarFimAlterarGrupo() {
@@ -115,15 +116,16 @@ public class CtrlConsultarGrupo extends CtrlAbstrato {
 	    }
 	    
 	    for (int i = 0; i < tamGrupo; i++) {
+	    	System.out.println("Teste");
 	        Grupo grupo = listaGrupos[i];
 	        
 	        // Comparar por nome se o nome não for vazio
-	        if (!nome.isEmpty() && grupo.getNome().equalsIgnoreCase(nome)) {
+	        if (!nome.isEmpty() && grupo.getNome().equals(nome)) {
 	            gruposEncontrados.add(grupo);
 	        }
 	        
 	        // Comparar por código do grupo se fornecido
-	        if (!codGrupo.isEmpty() && grupo.getCodigoGrupo().equalsIgnoreCase(codGrupo)) {
+	        if (!codGrupo.isEmpty() && grupo.getCodigoGrupo().equals(codGrupo)) {
 	            gruposEncontrados.add(grupo);
 	        }
 	        

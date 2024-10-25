@@ -216,20 +216,28 @@ public class JanelaConsultarGrupo extends ViewerAbstrato {
 
 		        CtrlConsultarGrupo ctrl = (CtrlConsultarGrupo) getCtrl();
 		        
-		        if (selectedItem instanceof Setor) {
+		        /*if (selectedItem instanceof Setor) {
 		            codigoSetor = (Setor) selectedItem;
-		        } else if (selectedItem instanceof String && selectedItem.equals("Selecione...")) {
+		        } else */if (selectedItem instanceof String && selectedItem.equals("Selecione...") && codigo.isEmpty() && nome.isEmpty()) {
 		        	ctrl.atualziarJanela();
-		            notificar("Por favor, selecione um setor válido.");
-		            return; // Saia do método caso "Selecione..." esteja selecionado
+		            //notificar("Por favor, selecione um setor válido.");
+		            //return; // Saia do método caso "Selecione..." esteja selecionado
 		        } 
+		        
+		        
+		        
+
+		        Setor setr = null;
+		        
+		        if (CbCodSetor.getSelectedIndex() == 0) {
+		            ctrl.consulta(nome, codigo, setr);  // Certifique-se de que o método 'consulta' aceite um Setor
+		        }
+		        else {
+		        	Setor setorr = (Setor) CbCodSetor.getSelectedItem();
+		        }
 		        
 		        // Corrigido para obter o setor corretamente
 		        Setor setor = (Setor) CbCodSetor.getSelectedItem();
-		        
-		        if (CbCodSetor.getSelectedIndex() == 0) {
-		            setor = null;
-		        }
 		        
 		        // Use o Setor para consultar os Grupos, ajustando a lógica da consulta
 

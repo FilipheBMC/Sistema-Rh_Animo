@@ -166,12 +166,12 @@ public class JanelaSetor extends ViewerAbstrato {
 					ctrl.atualizar();
 				}
 
+				
 				try {
 					cod = Integer.parseInt(aux);
 				}
 				catch(Exception e1) {
-					notificar("O código deve ser um numero inteiro válido.");
-					return;
+					cod = 0;
 				}
 				
 

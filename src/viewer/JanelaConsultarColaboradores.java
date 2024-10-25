@@ -59,7 +59,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 	/**
 	 * Create the frame.
 	 */
-	public JanelaConsultarColaboradores(CtrlConsultarColaborador c, Colaborador[] arrayColaborador) {
+	public JanelaConsultarColaboradores(CtrlConsultarColaborador c, Colaborador[] arrayColaborador, Setor[] setor, Grupo[] grupo) {
 		super(c);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				"C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
@@ -95,9 +95,9 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		table.setBounds(10, 143, 626, 232);
 		contentPane.add(table);
 
-		JLabel lblNewLabel = new JLabel("Nome:");
+		JLabel lblNewLabel = new JLabel("Nome:*");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(10, 10, 48, 19);
+		lblNewLabel.setBounds(10, 10, 56, 19);
 		contentPane.add(lblNewLabel);
 
 		TfNome = new JTextField();
@@ -105,15 +105,21 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		contentPane.add(TfNome);
 		TfNome.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("Setor:");
+		JLabel lblNewLabel_1 = new JLabel("Setor:*");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(222, 48, 48, 19);
 		contentPane.add(lblNewLabel_1);
 
 		//Resovler aqui, colocar a lista para fazer com que se possa escolher conforme os setores existentes.
-		JComboBox cbSetor = new JComboBox();
-		cbSetor.setModel(new DefaultComboBoxModel(new String[] { "Selecione...", "Ti", "Recursos Humanos",
-				"Financeiro", "Comercial", "Marketing", "Projetos" }));
+//		JComboBox cbSetor = new JComboBox();
+		JComboBox cbSetor = new JComboBox<>();
+//		cbSetor.setModel(new DefaultComboBoxModel(new String[] { "Selecione...", "Ti", "Recursos Humanos",
+//				"Financeiro", "Comercial", "Marketing", "Projetos" }));
+		cbSetor.addItem("Selecione...");
+		
+		for(Setor setorr : setor) {
+			cbSetor.addItem(setorr);
+		}
 		cbSetor.setBounds(269, 49, 125, 21);
 		contentPane.add(cbSetor);
 
@@ -122,20 +128,27 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		lblNewLabel_1_1.setBounds(436, 49, 48, 19);
 		contentPane.add(lblNewLabel_1_1);
 
-		JLabel lblNewLabel_1_1_1 = new JLabel("Grupo:");
+		JLabel lblNewLabel_1_1_1 = new JLabel("Grupo:*");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_1_1_1.setBounds(436, 14, 48, 19);
+		lblNewLabel_1_1_1.setBounds(436, 14, 56, 19);
 		contentPane.add(lblNewLabel_1_1_1);
 
-		JComboBox cbGrupo = new JComboBox();
+		JComboBox cbGrupo = new JComboBox<>();
+		
+		cbGrupo.addItem("Selecione...");
+		
+		for(Grupo grup : grupo) {
+			cbGrupo.addItem(grup);
+		}
 		cbGrupo.setBounds(494, 10, 125, 21);
 		contentPane.add(cbGrupo);
 
 		JComboBox cbCargo = new JComboBox();
+		cbCargo.setModel(new DefaultComboBoxModel(new String[] {"Selecione...", "Colaborador", "Diretor", "Líder"}));
 		cbCargo.setBounds(494, 49, 125, 21);
 		contentPane.add(cbCargo);
 
-		JLabel lblDataDeNascimento = new JLabel("Data Nasc:");
+		JLabel lblDataDeNascimento = new JLabel("Data Nasc:*");
 		lblDataDeNascimento.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDataDeNascimento.setBounds(10, 47, 95, 21);
 		contentPane.add(lblDataDeNascimento);
@@ -178,11 +191,17 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		JButton btnNewButton = new JButton("Consultar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nome = TfNome.getText();
-				String dtNascimento = TfDtNascimeto.getText();
-				String sexo = (String) cbSexo.getSelectedObjects().toString();
-				Setor setor = (Setor)cbSetor.getSelectedItem();
-				Grupo grupo = (Grupo)cbGrupo.getSelectedItem();
+				String nome = 			TfNome.getText();
+				String dtNascimento = 	TfDtNascimeto.getText();
+				String sexo = 			cbSexo.getSelectedItem().toString();
+				Setor setor = 			null;
+				Grupo grupo = 			null;
+				
+				if(cbSetor.getSelectedIndex() != 0)
+					setor = (Setor)cbSetor.getSelectedItem();
+				
+				if(cbGrupo.getSelectedIndex() != 0)
+					grupo = (Grupo)cbGrupo.getSelectedItem();
 				
 				CtrlConsultarColaborador ctrl = (CtrlConsultarColaborador)getCtrl();
 				ctrl.conuslta(nome, dtNascimento, setor, grupo, sexo);
@@ -259,7 +278,7 @@ public class JanelaConsultarColaboradores extends ViewerAbstrato {
 		BtEncerrar.setBounds(399, 115, 85, 21);
 		contentPane.add(BtEncerrar);
 		
-		JLabel sdasmndajsd = new JLabel("Sexo:");
+		JLabel sdasmndajsd = new JLabel("Sexo:*");
 		sdasmndajsd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		sdasmndajsd.setBounds(436, 90, 48, 19);
 		contentPane.add(sdasmndajsd);

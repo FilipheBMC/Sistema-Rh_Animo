@@ -80,7 +80,7 @@ public class CtrlSetor extends CtrlAbstrato {
 	    daoSetor = new DaoSetor();
 	    
 	    // Se nenhum campo estiver preenchido, notifica o usuário
-	    if (nome.isEmpty() && codigo == 0) {
+	    if (nome.isEmpty() && codigo <= 0) {
 	        this.atualizar();  // Aqui ele deveria atualizar para o estado original
 	        this.janelaSetor.notificar("Para consultar o setor, preencha algum campo.");
 	        return;

@@ -62,12 +62,12 @@ public class JanelaExcluirSetorConfirmacao extends ViewerAbstrato{
 		JLabel LblMenssagem = new JLabel("Tem certeza que deseja excluir o setor:");
 		LblMenssagem.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
 		LblMenssagem.setFont(new Font("Arial", Font.BOLD, 12));
-		LblMenssagem.setBounds(49, 25, 286, 73);
+		LblMenssagem.setBounds(49, 18, 286, 73);
 		contentPane.add(LblMenssagem);
 		
 		LbNome = new JLabel(setor);
 		LbNome.setFont(new Font("Arial", Font.BOLD, 12));
-		LbNome.setBounds(88, 77, 61, 14);
+		LbNome.setBounds(88, 77, 116, 14);
 		contentPane.add(LbNome);
 		
 		this.setVisible(true);

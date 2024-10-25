@@ -44,7 +44,7 @@ public class JanelaAlterarColaborador extends ViewerAbstrato {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				"C:\\Users\\Brandão\\Videos\\Captures\\Ânimo Consultoria (@animoconsultoria) • Fotos e vídeos do Instagram - Google Chrome 16_03_2024 18_55_16.png"));
 		setFont(new Font("Arial Narrow", Font.BOLD, 12));
-		setTitle("Consulta de Colaboradores");
+		setTitle("Alterar de Colaborador");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 660, 412);
 		contentPane = new JPanel();
